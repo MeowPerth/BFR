@@ -1,0 +1,8 @@
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\bin\Debug\BFR.WinApp.exe
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\bin\Debug\BFR.WinApp.pdb
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.FrmMain.resources
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.Properties.Resources.resources
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.csproj.GenerateResource.cache
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.csproj.CoreCompileInputs.cache
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.exe
+C:\Users\11147\Desktop\BFR-master\BFR.WinApp\obj\Debug\BFR.WinApp.pdb

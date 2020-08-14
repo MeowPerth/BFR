@@ -106,7 +106,8 @@ namespace BFR.WinApp
                 }
 
                 if (string.IsNullOrEmpty(this.tbReplacedText.Text.Trim()) &&
-                    string.IsNullOrEmpty(this.tbReName.Text.Trim()) &&
+                    string.IsNullOrEmpty(this.Left_Name.Text.Trim()) &&
+                    string.IsNullOrEmpty(this.Right_Name.Text.Trim()) &&
                     !this.rbtnLower.Checked && !this.rbtnUpper.Checked &&
                     string.IsNullOrEmpty(this.tbCreateTime.Text) &&
                     string.IsNullOrEmpty(this.tbModifiedTime.Text))
@@ -140,7 +141,7 @@ namespace BFR.WinApp
                 //0:不修改;1:替换;2:重命名;
                 int type = 0;
                 progress = 1;
-                if (!string.IsNullOrEmpty(this.tbReName.Text.Trim()))
+                if (!string.IsNullOrEmpty(this.Left_Name.Text.Trim()+ this.Right_Name.Text.Trim()))
                 {
                     type = 2;
                     counter = (int)this.nudStart.Value;
@@ -168,9 +169,30 @@ namespace BFR.WinApp
                     }
                     else if (type == 2)//重命名-序号
                     {
-                        tmp = this.tbReName.Text.Trim() +
-                            this.tbConnector.Text.Trim() +
-                            this.GetSerial(counter, (int)this.nudBit.Value);
+                        if (retain_name.Checked)
+                        {
+                            if(retain_name_left.Checked)
+                            {
+                                tmp = info.SafeName +
+                                this.Left_Name.Text.Trim() +
+                                this.GetSerial(counter, (int)this.nudBit.Value) +
+                                this.Right_Name.Text.Trim();
+                            }
+                            else
+                            {
+                                tmp = this.Left_Name.Text.Trim() +
+                                this.GetSerial(counter, (int)this.nudBit.Value) +
+                                this.Right_Name.Text.Trim() +
+                                info.SafeName;
+                            }
+                        }
+                        else
+                        {
+                            tmp = this.Left_Name.Text.Trim() +
+                            this.GetSerial(counter, (int)this.nudBit.Value) +
+                            this.Right_Name.Text.Trim();
+                        }
+                        
                     }
 
                     if (File.Exists(info.FullName))
@@ -219,10 +241,10 @@ namespace BFR.WinApp
                 FilesListInit();
                 this.tbReplaceText.Text = "";
                 this.tbReplacedText.Text = "";
-                this.tbReName.Text = "";
-                this.tbConnector.Text = "";
+                this.Left_Name.Text = "";
+                this.Right_Name.Text = "";
             }
-            catch (Exception ex)
+            catch
             {
                 Msg("发生异常");
             }
@@ -241,7 +263,7 @@ namespace BFR.WinApp
         /// <param name="e"></param>
         private void lnkAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.lnkAbout.Links[0].LinkData = "https://github.com/seayxu/BFR";
+            this.lnkAbout.Links[0].LinkData = "https://github.com/MeowPerth/BFR";
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());    
         }
 
@@ -370,7 +392,7 @@ namespace BFR.WinApp
                 string tmp = filename.Remove(filename.LastIndexOf("\\")+1);
                 return tmp;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -435,9 +457,79 @@ namespace BFR.WinApp
 
         private void lnklblLastedVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.lnklblLastedVersion.Links[0].LinkData = "https://github.com/seayxu/BFR/releases/latest";
+            this.lnklblLastedVersion.Links[0].LinkData = "https://github.com/MeowPerth/BFR/releases/latest";
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
-        
+
+        private void retain_name_CheckedChanged(object sender, EventArgs e)
+        {
+            if(retain_name.Checked)
+            {
+                retain_name_left.Enabled = true;
+                retain_name_right.Enabled = true;
+            }
+            else
+            {
+                retain_name_left.Enabled = false;
+                retain_name_right.Enabled = false;
+            }
+        }
+
+        private void ext_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ext_checkBox.Checked)
+            {
+                extBox.Enabled = true;
+            }
+            else
+            {
+                rbtnUpper.Checked = false;
+                rbtnLower.Checked = false;
+
+                extBox.Enabled = false;
+            }
+        }
+
+        private void creatinfo_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (creatinfo_checkBox.Checked)
+            {
+                creatinfoBox.Enabled = true;
+            }
+            else
+            {
+                tbCreateTime.Text = null;
+                tbModifiedTime.Text = null;
+
+                creatinfoBox.Enabled = false;
+            }
+        }
+
+        private void replace_radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (replace_radioButton.Checked)
+            {
+                
+                Left_Name.Text = null;
+                Right_Name.Text = null;
+                retain_name_left.Enabled = false;
+                retain_name_right.Enabled = false;
+                retain_name.Checked = false;
+                nudBit.Value = 2;
+                nudStart.Value = 1;
+
+                replaceBox.Enabled = true;
+                numBox.Enabled = false;
+            }
+            else
+            {
+                tbReplacedText.Text = null;
+                tbReplaceText.Text = null;
+
+                replaceBox.Enabled = false;
+                numBox.Enabled = true;
+            }
+        }
+
     }
 }
